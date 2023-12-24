@@ -12,9 +12,10 @@ describe('JSON parse from scratch', () => {
       expect(parse('true')).toBe(true)
     })
 
-    //     it('parses false', () => {
-    //       expect(parse('false')).toBe(false)
-    //     })
+    it('parses false', () => {
+      expect(parse('false')).toBe(false)
+    })
+
     //     it('parses numbers', () => {
     //       expect(parse('42')).toBe(42)
     //     })
