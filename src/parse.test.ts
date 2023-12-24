@@ -29,7 +29,7 @@ describe('JSON parse from scratch', () => {
     })
   })
 
-  describe.skip('objects', () => {
+  describe.only('objects', () => {
     it('parses an empty object', () => {
       expect(parse('{}')).toEqual({})
     })

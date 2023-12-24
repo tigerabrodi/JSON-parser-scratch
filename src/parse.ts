@@ -2,6 +2,9 @@
 
 const NUMBER_REGEX = /^-?\d+(\.\d+)?$/
 
+const LEFT_BRACE = '{'
+const RIGHT_BRACE = '}'
+
 function isNumber(value: string): boolean {
   return NUMBER_REGEX.test(value)
 }
@@ -20,6 +23,16 @@ export function parse(input: string) {
   if (input === 'true') return true
   if (input === 'false') return false
   if (isNumber(input)) return Number(input)
+
+  if (input.startsWith(LEFT_BRACE) && input.endsWith(RIGHT_BRACE)) {
+    return {}
+    // const inner = input.slice(1, -1)
+    // const [key, value] = inner.split(':')
+
+    // return {
+    //   [parseString(key)]: parse(value),
+    // }
+  }
 
   return parseString(input)
 }
