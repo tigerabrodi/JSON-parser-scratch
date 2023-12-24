@@ -4,4 +4,7 @@ export function parse(input: string) {
   if (input === 'true') return true
   if (input === 'false') return false
   if (Number(input)) return Number(input)
+
+  // Needed to remove the quotes from the string that come with the input
+  return input.slice(1, -1)
 }
