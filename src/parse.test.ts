@@ -25,7 +25,7 @@ describe('JSON parse from scratch', () => {
     })
 
     it('throws an error for invalid string', () => {
-      expect(() => parse('hello')).toThrow()
+      expect(() => parse('hello')).toThrowError('Invalid string')
     })
   })
 
