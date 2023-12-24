@@ -25,13 +25,14 @@ export function parse(input: string) {
   if (isNumber(input)) return Number(input)
 
   if (input.startsWith(LEFT_BRACE) && input.endsWith(RIGHT_BRACE)) {
-    return {}
-    // const inner = input.slice(1, -1)
-    // const [key, value] = inner.split(':')
+    if (input === '{}') return {}
 
-    // return {
-    //   [parseString(key)]: parse(value),
-    // }
+    const inner = input.slice(1, -1)
+    const [key, value] = inner.split(':')
+
+    return {
+      [parseString(key.trim())]: parseString(value.trim()),
+    }
   }
 
   return parseString(input)

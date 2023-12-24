@@ -34,9 +34,9 @@ describe('JSON parse from scratch', () => {
       expect(parse('{}')).toEqual({})
     })
 
-    // it('parses an object with a single key-value pair', () => {
-    //   expect(parse('{"key": "value"}')).toEqual({ key: 'value' })
-    // })
+    it('parses an object with a single key-value pair', () => {
+      expect(parse('{"key": "value"}')).toEqual({ key: 'value' })
+    })
 
     // it('parses an object with multiple key-value pairs', () => {
     //   expect(parse('{"key1": "value1", "key2": 42}')).toEqual({
