@@ -27,12 +27,19 @@ export function parse(input: string) {
   if (input.startsWith(LEFT_BRACE) && input.endsWith(RIGHT_BRACE)) {
     if (input === '{}') return {}
 
-    const inner = input.slice(1, -1)
-    const [key, value] = inner.split(':')
+    const insideObject = input.slice(1, -1)
 
-    return {
-      [parseString(key.trim())]: parseString(value.trim()),
-    }
+    const objectKeysValues = insideObject
+      .split(',')
+      .map((pair) => pair.split(':').map((part) => part.trim()))
+
+    return objectKeysValues.reduce<Record<string, unknown>>(
+      (obj, [key, value]) => {
+        obj[parseString(key)] = parse(value)
+        return obj
+      },
+      {}
+    )
   }
 
   return parseString(input)
