@@ -3,4 +3,5 @@ export function parse(input: string) {
   if (input === 'null') return null
   if (input === 'true') return true
   if (input === 'false') return false
+  if (Number(input)) return Number(input)
 }
