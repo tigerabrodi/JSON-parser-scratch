@@ -24,9 +24,16 @@ export function parse(input: string) {
   if (input === 'false') return false
   if (isNumber(input)) return Number(input)
 
-  const isObject = input.startsWith(OPEN_BRACE) && input.endsWith(CLOSE_BRACE)
-  if (isObject) {
+  const isValidTopLevelObject =
+    input.startsWith(OPEN_BRACE) && input.endsWith(CLOSE_BRACE)
+  if (isValidTopLevelObject) {
     return parseObject(input) // Parse the inner content of the object
+  }
+
+  const isInvalidTopLevelObject =
+    input.startsWith(OPEN_BRACE) !== input.endsWith(CLOSE_BRACE)
+  if (isInvalidTopLevelObject) {
+    throw new Error('Invalid JSON')
   }
 
   return parseString(input)

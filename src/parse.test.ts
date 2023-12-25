@@ -51,8 +51,8 @@ describe('JSON parse from scratch', () => {
       })
     })
 
-    // it('throws an error for invalid objects', () => {
-    //   expect(() => parse('{"key": "value"')).toThrow()
-    // })
+    it('throws an error for invalid objects', () => {
+      expect(() => parse('{"key": "value"')).toThrow()
+    })
   })
 })
