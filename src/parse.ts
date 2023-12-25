@@ -20,10 +20,37 @@ function isNumber(value: string): boolean {
 
 function parseArray(input: string) {
   const arrayContent = input.slice(1, -1)
-  const arrayElements = arrayContent
-    .split(',')
-    .map((element) => element.trim())
-    .map(parse)
+
+  console.log('arrayContent', arrayContent) // -> '1, [2, 3], 4'
+
+  const splitByComma = arrayContent.split(',')
+
+  console.log('splitByComma', splitByComma) // -> ['1', ' [2', ' 3]', ' 4']
+
+  const trimmedElements = splitByComma.map((element) => element.trim()) // -> ['1', '[2', '3]', '4']
+
+  console.log('trimmedElements', trimmedElements)
+
+  const arrayElements: Array<unknown> = []
+  let temp: Array<unknown> = []
+
+  // Here we can't forget to parse the elements of the array
+  trimmedElements.forEach((element) => {
+    // Start of nested array
+    if (element.startsWith('[')) {
+      const elementWithoutOpenBracket = element.slice(1)
+      temp.push(parse(elementWithoutOpenBracket))
+
+      // End of nested array
+    } else if (element.endsWith(']')) {
+      const elementWithoutCloseBracket = element.slice(0, -1) // -1 removes the last element
+      temp.push(parse(elementWithoutCloseBracket))
+      arrayElements.push(temp)
+      temp = []
+    } else {
+      arrayElements.push(parse(element))
+    }
+  })
 
   return arrayElements
 }
