@@ -13,7 +13,7 @@ function parseObject(input: string) {
   if (input === '{}') return {}
 
   const obj: Record<string, unknown> = {}
-  let currentDepth = 0 // 1 means we are at the root level. 0 means we are outside of the object.
+  let currentDepth = 0 // 1 means we are at the root level. 0 means we are outside of the object. We'll be at either 1 or 0 at any given time, because we're only parsing one object at a time. We do this by recursively calling parseObject().
   let keyStartIndex = -1
   let valueStartIndex = -1
   let isInString = false
@@ -22,12 +22,13 @@ function parseObject(input: string) {
   for (let i = 0; i < input.length; i++) {
     const currentChar = input[i]
 
-    // Toggle the string state when encountering quotes.
-    if (currentChar === '"') {
-      isInString = !isInString
+    const isCurrentCharString = currentChar === '"'
+    if (isCurrentCharString) {
+      isInString = toggleIsInString(isInString)
 
       // Exiting or entering a string.
-      if (!isInString) {
+      const isExitingString = isInString === false
+      if (isExitingString) {
         // What: Check if we've just finished reading a key.
         // Why: To extract and set the current key.
         if (keyStartIndex !== -1 && currentKey === '') {
@@ -36,6 +37,7 @@ function parseObject(input: string) {
       } else {
         // What: Mark the start index of a key.
         // Why: To know where to start extracting the key.
+        // Entering a string.
         keyStartIndex = i
       }
       continue
@@ -45,19 +47,22 @@ function parseObject(input: string) {
 
     // What: Check if we are entering a new object.
     // Why: To increment the depth indicating a new level of nesting.
-    if (currentChar === '{') {
+    const isCurrentCharOpenBrace = currentChar === OPEN_BRACE
+    if (isCurrentCharOpenBrace) {
       currentDepth++
       continue
     }
 
     // What: Check if we are exiting an object.
     // Why: To decrement the depth and process the completed object or value.
-    if (currentChar === '}') {
+    const isCurrentCharCloseBrace = currentChar === CLOSE_BRACE
+    if (isCurrentCharCloseBrace) {
       currentDepth--
 
       // What: Check if we've reached the end of the object.
       // Why: To extract and assign the value to the current key, then reset for the next key-value pair.
-      if (currentDepth === 0 && currentKey) {
+      const isMarkingEndOfObject = currentDepth === 0
+      if (isMarkingEndOfObject && currentKey) {
         const value = extractValue(input, valueStartIndex, i)
         obj[currentKey] = parseValue(value)
         currentKey = ''
@@ -67,7 +72,8 @@ function parseObject(input: string) {
 
     // What: Check if we've reached the separator between a key and its value.
     // Why: To mark the start of the value.
-    if (currentChar === ':' && currentDepth === 1) {
+    const isMarkingStartOfValue = currentChar === ':' && currentDepth === 1
+    if (isMarkingStartOfValue) {
       // Always set to a new value, that's why we're not resetting it elsewhere.
       valueStartIndex = i + 1
       continue
@@ -75,7 +81,8 @@ function parseObject(input: string) {
 
     // What: Check if we've reached the end of a value at the root level.
     // Why: To extract and assign the value to the current key, then reset for the next key-value pair.
-    if ((currentChar === ',' || currentChar === '}') && currentDepth === 1) {
+    const areWeEndOfValue = currentChar === ',' || currentChar === '}'
+    if (areWeEndOfValue && currentDepth === 1) {
       const value = extractValue(input, valueStartIndex, i)
       obj[currentKey] = parseValue(value)
       currentKey = ''
@@ -83,6 +90,10 @@ function parseObject(input: string) {
   }
 
   return obj
+}
+
+function toggleIsInString(isInString: boolean) {
+  return !isInString
 }
 
 function extractKey(input: string, start: number, end: number) {
