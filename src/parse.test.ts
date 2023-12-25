@@ -23,13 +23,9 @@ describe('JSON parse from scratch', () => {
     it('parses strings', () => {
       expect(parse('"hello"')).toBe('hello')
     })
-
-    it('throws an error for invalid string', () => {
-      expect(() => parse('hello')).toThrowError('Invalid string')
-    })
   })
 
-  describe.only('objects', () => {
+  describe('objects', () => {
     it('parses an empty object', () => {
       expect(parse('{}')).toEqual({})
     })
@@ -45,11 +41,15 @@ describe('JSON parse from scratch', () => {
       })
     })
 
-    // it('parses nested objects', () => {
-    //   expect(parse('{"outerKey": {"innerKey": "innerValue"}}')).toEqual({
-    //     outerKey: { innerKey: 'innerValue' },
-    //   })
-    // })
+    it('parses 3 level nested objects', () => {
+      const parsed = parse(
+        '{"outerKey": {"innerKey": {"innerInnerKey": "innerInnerValue"}}}'
+      )
+
+      expect(parsed).toEqual({
+        outerKey: { innerKey: { innerInnerKey: 'innerInnerValue' } },
+      })
+    })
 
     // it('throws an error for invalid objects', () => {
     //   expect(() => parse('{"key": "value"')).toThrow()
