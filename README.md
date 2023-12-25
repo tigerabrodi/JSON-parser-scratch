@@ -1,5 +1,11 @@
 # JSON Parser from scratch
 
+# Learnings
+
+- `trim` removes whitespace from both ends of a string, but not in the middle.
+- `slice` and `substring` are similar, but have some differences.
+- Iterate through an object by keeping track of depth and if nested object then recursively call the function.
+
 # String slice vs substring
 
 How substring works: `string.substring(start, end)`.
