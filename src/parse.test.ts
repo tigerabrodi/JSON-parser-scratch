@@ -57,11 +57,11 @@ describe('JSON parse from scratch', () => {
   })
 
   describe('arrays', () => {
-    it.only('parses an empty array', () => {
+    it('parses an empty array', () => {
       expect(parse('[]')).toEqual([])
     })
 
-    it('parses an array of primitives', () => {
+    it.only('parses an array of primitives', () => {
       expect(parse('[true, false, null, 42, "hello"]')).toEqual([
         true,
         false,

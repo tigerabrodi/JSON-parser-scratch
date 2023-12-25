@@ -18,6 +18,16 @@ function isNumber(value: string): boolean {
   return NUMBER_REGEX.test(value)
 }
 
+function parseArray(input: string) {
+  const arrayContent = input.slice(1, -1)
+  const arrayElements = arrayContent
+    .split(',')
+    .map((element) => element.trim())
+    .map(parse)
+
+  return arrayElements
+}
+
 export function parse(input: string) {
   if (input === 'null') return null
   if (input === 'true') return true
@@ -37,6 +47,11 @@ export function parse(input: string) {
     input.startsWith(OPEN_BRACE) !== input.endsWith(CLOSE_BRACE)
   if (isInvalidTopLevelObject) {
     throw new Error('Invalid JSON')
+  }
+
+  const isValidTopLevelArray = input.startsWith('[') && input.endsWith(']')
+  if (isValidTopLevelArray) {
+    return parseArray(input)
   }
 
   return parseString(input)
