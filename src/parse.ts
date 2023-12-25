@@ -75,5 +75,10 @@ export function parse(input: string) {
     return parseArray(input)
   }
 
+  const isInvalidTopLevelArray = input.startsWith('[') !== input.endsWith(']')
+  if (isInvalidTopLevelArray) {
+    throw new Error('Invalid JSON')
+  }
+
   return parseString(input)
 }

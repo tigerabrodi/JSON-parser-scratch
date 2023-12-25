@@ -75,14 +75,14 @@ describe('JSON parse from scratch', () => {
       expect(parse('[1, [2, 3], 4]')).toEqual([1, [2, 3], 4])
     })
 
-    it.skip('parses an array of objects', () => {
+    it('parses an array of objects', () => {
       expect(parse('[{"key1": "value1"}, {"key2": "value2"}]')).toEqual([
         { key1: 'value1' },
         { key2: 'value2' },
       ])
     })
 
-    it.skip('throws an error for invalid arrays', () => {
+    it.only('throws an error for invalid arrays', () => {
       expect(() => parse('[1, 2,')).toThrow()
     })
   })
