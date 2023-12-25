@@ -66,4 +66,12 @@ let substringed = str.substring(7, 50) // "World!"
 
 Both methods handle out-of-bounds indices by going up to the end of the string.
 
+### Example 5: Remove last character with -1
+
+```javascript
+let str = 'Hello, World!'
+let sliced = str.slice(0, -1) // "Hello, World"
+let substringed = str.substring(0, -1) // "Hello, World"
+```
+
 # Notes on parseObject
