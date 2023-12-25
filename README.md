@@ -73,5 +73,3 @@ let str = 'Hello, World!'
 let sliced = str.slice(0, -1) // "Hello, World"
 let substringed = str.substring(0, -1) // "Hello, World"
 ```
-
-# Notes on parseObject

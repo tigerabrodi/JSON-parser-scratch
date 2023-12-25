@@ -19,17 +19,11 @@ function isNumber(value: string): boolean {
 }
 
 function parseArray(input: string) {
-  const arrayContent = input.slice(1, -1)
+  const arrayContent = input.slice(1, -1) // -> '1, [2, 3], 4'
 
-  console.log('arrayContent', arrayContent) // -> '1, [2, 3], 4'
-
-  const splitByComma = arrayContent.split(',')
-
-  console.log('splitByComma', splitByComma) // -> ['1', ' [2', ' 3]', ' 4']
+  const splitByComma = arrayContent.split(',') // -> ['1', ' [2', ' 3]', ' 4']
 
   const trimmedElements = splitByComma.map((element) => element.trim()) // -> ['1', '[2', '3]', '4']
-
-  console.log('trimmedElements', trimmedElements)
 
   const arrayElements: Array<unknown> = []
   let temp: Array<unknown> = []
