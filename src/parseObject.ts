@@ -66,7 +66,7 @@ export function parseObject(input: string) {
     const isMarkingStartOfValue = currentChar === ':' && currentDepth === 1
     if (isMarkingStartOfValue) {
       // Always set to a new value, that's why we're not resetting it elsewhere.
-      valueStartIndex = i + 1
+      valueStartIndex = i + 1 // +1 to skip the colon, this would be like ` "somestring"` where whitespace is the start, but we trim it later.
       continue
     }
 
@@ -89,11 +89,14 @@ function toggleIsInString(isInString: boolean) {
 
 function extractKey(input: string, start: number, end: number) {
   // trim needed to remove spaces around the key.
+  // +1 needed to skip quote
+  // end does not need -1 because substring does not include the end index, it goes up to but not including the end index.
   return input.substring(start + 1, end).trim()
 }
 
 function extractValue(input: string, start: number, end: number) {
   // trim needed to remove spaces around the value.
+  // end would be comma or closing bracket, so we get value up to that point, the value may have space so we trim it.
   return input.substring(start, end).trim()
 }
 
