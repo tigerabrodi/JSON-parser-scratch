@@ -55,4 +55,35 @@ describe('JSON parse from scratch', () => {
       expect(() => parse('{"key": "value"')).toThrow()
     })
   })
+
+  describe('arrays', () => {
+    it.only('parses an empty array', () => {
+      expect(parse('[]')).toEqual([])
+    })
+
+    it('parses an array of primitives', () => {
+      expect(parse('[true, false, null, 42, "hello"]')).toEqual([
+        true,
+        false,
+        null,
+        42,
+        'hello',
+      ])
+    })
+
+    it('parses a nested array', () => {
+      expect(parse('[1, [2, 3], 4]')).toEqual([1, [2, 3], 4])
+    })
+
+    it('parses an array of objects', () => {
+      expect(parse('[{"key1": "value1"}, {"key2": "value2"}]')).toEqual([
+        { key1: 'value1' },
+        { key2: 'value2' },
+      ])
+    })
+
+    it('throws an error for invalid arrays', () => {
+      expect(() => parse('[1, 2,')).toThrow()
+    })
+  })
 })

@@ -22,6 +22,9 @@ export function parse(input: string) {
   if (input === 'null') return null
   if (input === 'true') return true
   if (input === 'false') return false
+  if (input === '') return ''
+  if (input === ' ') return ' '
+  if (input === '[]') return []
   if (isNumber(input)) return Number(input)
 
   const isValidTopLevelObject =
